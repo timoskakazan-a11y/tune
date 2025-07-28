@@ -1,0 +1,50 @@
+<div class="player-container glass-ui" *ngIf="currentTrack" [@fadeAnimation]>
+  <!-- Track Image -->
+  <div class="img-container">
+    <img [src]="currentTrack.cover" alt="Album Cover" class="cover-art" [class.playing]="isPlaying">
+  </div>
+
+  <!-- Track Info -->
+  <div class="track-info">
+    <h2 class="title">{{ currentTrack.title }}</h2>
+    <h3 class="artist">{{ currentTrack.artist }}</h3>
+  </div>
+
+  <!-- Progress Bar -->
+  <div class="progress-container" (click)="seek($event)">
+    <div class="progress-bar" [style.width.%]="progress"></div>
+    <div class="time-info">
+        <span>{{ currentTime | date:'mm:ss' }}</span>
+        <span>{{ duration | date:'mm:ss' }}</span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div class="controls">
+    <button class="btn" (click)="prevTrack()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 6V18L18 12L7 6Z" transform="scale(-1, 1) translate(-24, 0)"></path></svg>
+    </button>
+    <button class="btn btn-main" (click)="togglePlayPause()">
+      <svg *ngIf="!isPlaying" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5V19L19 12L8 5Z"></path></svg>
+      <svg *ngIf="isPlaying" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19H10V5H6V19ZM14 5V19H18V5H14Z"></path></svg>
+    </button>
+    <button class="btn" (click)="nextTrack()">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M7 6V18L18 12L7 6Z"></path></svg>
+    </button>
+  </div>
+</div>
+
+<div class="playlist-container glass-ui">
+    <h4>Плейлист</h4>
+    <ul>
+        <li *ngFor="let track of playlist; let i = index"
+            (click)="selectTrack(i)"
+            [class.active]="track === currentTrack">
+            <img [src]="track.cover" class="playlist-cover" alt="cover">
+            <div class="playlist-info">
+                <span>{{ track.title }}</span>
+                <small>{{ track.artist }}</small>
+            </div>
+        </li>
+    </ul>
+</div>
